@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>Deactivate Account</h1>
+  <p>{{ user.first_name }} {{ user.last_name }} ({{ target_role }})</p>
+  <form
+    method="post"
+    action="{{ url_for('features.deactivate_user', user_id=user.user_id) }}"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><button
+      class="btn btn-danger"
+    >
+      {{ 'Request Deactivation' if user_role == 'Manager' else 'Deactivate User'
+      }}
+    </button>
+    <a class="btn btn-secondary" href="{{ url_for('app_users') }}">Cancel</a>
+  </form>
+</section>
+{% endblock %}

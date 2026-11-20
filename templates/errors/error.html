@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <p class="error-code">
+    {{ 403 if page_title == 'Access denied' else 404 if page_title == 'Page not
+    found' else 409 if page_title == 'Request conflict' else 429 if page_title
+    == 'Too many requests' else 500 if page_title == 'Server error' else 400 }}
+  </p>
+  <h1>{{ page_title }}</h1>
+  <p>{{ message }}</p>
+  <a class="btn btn-primary" href="{{ url_for('home') }}"
+    >Back to ABC Solutions</a
+  >
+</section>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Inventory Status Report</h1>
+<div class="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Report type">
+  <a class="btn btn-secondary" href="{{ url_for('app_reports') }}">Sales</a
+  ><a
+    class="btn btn-primary"
+    href="{{ url_for('app_inventory_report') }}"
+    aria-current="page"
+    >Inventory</a
+  ><a class="btn btn-secondary" href="{{ url_for('app_customer_report') }}"
+    >Customer Activity</a
+  >
+</div>
+<p>Active inventory quantities and stock status.</p>
+<div class="stats mb-3">
+  <section class="card app-card">
+    <h2>Active Item Types</h2>
+    <p class="mb-0">{{ inventory.active_items }}</p>
+  </section>
+  <section class="card app-card">
+    <h2>Units in Stock</h2>
+    <p class="mb-0">{{ inventory.units }}</p>
+  </section>
+  <section class="card app-card">
+    <h2>At or Below Reorder Level</h2>
+    <p class="mb-0">{{ inventory.low_items }}</p>
+  </section>
+</div>
+<div class="table-frame table-responsive">
+  <table class="table table-striped align-middle">
+    <caption>
+      Inventory by Item
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">SKU</th>
+        <th scope="col">Item</th>
+        <th scope="col">Status</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Reorder level</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in inventory.rows %}
+      <tr>
+        <th scope="row">{{ row.sku }}</th>
+        <td>{{ row.name }}</td>
+        <td>{{ row.status }}</td>
+        <td>{{ row.quantity }}</td>
+        <td>{{ row.reorder_level }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">No active inventory.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Edit Customer</h1>
+<form
+  class="card auth-card app-card"
+  method="post"
+  action="{{ url_for('features.customer_save') }}"
+>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><input
+    type="hidden"
+    name="customer_id"
+    value="{{ customer.customer_id }}"
+  /><label for="customer-first">First Name</label
+  ><input
+    id="customer-first"
+    name="first_name"
+    value="{{ customer.first_name }}"
+    required
+    class="form-control"
+  /><label for="customer-last">Last Name</label
+  ><input
+    id="customer-last"
+    name="last_name"
+    value="{{ customer.last_name }}"
+    required
+    class="form-control"
+  /><label for="customer-email">Email</label
+  ><input
+    id="customer-email"
+    name="email"
+    type="email"
+    value="{{ customer.email }}"
+    required
+    class="form-control"
+  /><label for="customer-phone">Phone</label
+  ><input
+    id="customer-phone"
+    name="phone"
+    value="{{ customer.phone }}"
+    class="form-control"
+  /><button class="mt-3 btn btn-primary">Save Changes</button>
+  <a class="btn btn-secondary" href="{{ url_for('app_customers') }}">Cancel</a>
+</form>
+{% endblock %}

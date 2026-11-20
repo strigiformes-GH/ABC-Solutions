@@ -1,0 +1,37 @@
+AUDIT_ACTION_LABELS = {
+    "LOGIN_SUCCESS": "Signed in",
+    "LOGIN_FAILED": "Failed sign-in",
+    "LOGIN_BLOCKED": "Blocked sign-in attempt",
+    "ACCOUNT_LOCKED": "Account locked",
+    "LOGOUT": "Signed out",
+    "MFA_ENABLED": "Two-factor authentication enabled",
+    "MFA_FAILED": "Failed verification code",
+    "MFA_RESET": "Two-factor authentication reset",
+    "USER_REGISTERED": "Account requested",
+    "USER_ACTIVATED": "Account activated",
+    "USER_DEACTIVATED": "Account deactivated",
+    "USER_UNLOCKED": "Account unlocked",
+    "ROLE_CHANGED": "Account role changed",
+    "INVENTORY_CREATED": "Inventory item added",
+    "INVENTORY_UPDATED": "Inventory item updated",
+    "INVENTORY_ARCHIVED": "Inventory item deleted",
+    "CUSTOMER_CREATED": "Customer added",
+    "CUSTOMER_UPDATED": "Customer updated",
+    "CUSTOMER_ARCHIVED": "Customer deleted",
+    "CUSTOMER_EDIT_REQUESTED": "Customer edit requested",
+    "CUSTOMER_EDIT_APPROVED": "Customer edit approved",
+    "CUSTOMER_EDIT_REJECTED": "Customer edit rejected",
+    "SALE_RECORDED": "Sale recorded",
+    "DELETION_REQUESTED": "Deletion requested",
+    "DELETION_APPROVED": "Deletion approved",
+    "DELETION_REJECTED": "Deletion rejected",
+    "PASSWORD_RESET_REQUESTED": "Password reset requested",
+    "PASSWORD_RESET_APPROVED": "Password reset approved",
+    "PASSWORD_RESET_COMPLETED": "Password changed",
+    "CUSTOMER_ANONYMISED": "Customer anonymised",
+    "LOGS_PURGED": "Old audit logs purged",
+}
+
+
+def audit_action_label(action: str) -> str:
+    return AUDIT_ACTION_LABELS.get(action, action)

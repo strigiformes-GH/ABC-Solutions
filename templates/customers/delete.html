@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>Archive Customer</h1>
+  <p>{{ customer.name }} | {{ customer.email }}</p>
+  <form
+    method="post"
+    action="{{ url_for('features.customer_delete', customer_id=customer_id) }}"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><button
+      class="btn btn-danger"
+    >
+      {{ 'Request Archive' if user_role == 'Employee' else 'Archive Customer' }}
+    </button>
+    <a class="btn btn-secondary" href="{{ url_for('app_customers') }}"
+      >Cancel</a
+    >
+  </form>
+</section>
+{% endblock %}

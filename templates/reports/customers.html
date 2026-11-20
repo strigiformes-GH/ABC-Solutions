@@ -1,0 +1,83 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Customer Activity Report</h1>
+<div class="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Report type">
+  <a class="btn btn-secondary" href="{{ url_for('app_reports') }}">Sales</a
+  ><a class="btn btn-secondary" href="{{ url_for('app_inventory_report') }}"
+    >Inventory</a
+  ><a
+    class="btn btn-primary"
+    href="{{ url_for('app_customer_report') }}"
+    aria-current="page"
+    >Customer Activity</a
+  >
+</div>
+<form
+  class="card mb-3 app-card"
+  method="get"
+  action="{{ url_for('app_customer_report') }}"
+>
+  <div class="row g-2 align-items-end">
+    <div class="col-6 col-md-3">
+      <label for="customer-report-from">From Date</label
+      ><input
+        id="customer-report-from"
+        name="from_date"
+        type="date"
+        value="{{ from_date }}"
+        class="form-control"
+      />
+    </div>
+    <div class="col-6 col-md-3">
+      <label for="customer-report-to">To Date</label
+      ><input
+        id="customer-report-to"
+        name="to_date"
+        type="date"
+        value="{{ to_date }}"
+        class="form-control"
+      />
+    </div>
+    <div class="col-12 col-md-auto">
+      <button class="btn btn-primary" type="submit">Apply</button>
+      <a class="btn btn-secondary" href="{{ url_for('app_customer_report') }}"
+        >Clear</a
+      >
+    </div>
+  </div>
+</form>
+<div class="stats mb-3">
+  <section class="card app-card">
+    <h2>Active Customers</h2>
+    <p class="mb-0">{{ metrics.active_customers }}</p>
+  </section>
+  <section class="card app-card">
+    <h2>Total Spend</h2>
+    <p class="mb-0">£{{ metrics.spend }}</p>
+  </section>
+  <section class="card app-card">
+    <h2>Average Order Value</h2>
+    <p class="mb-0">£{{ metrics.average_order_value }}</p>
+  </section>
+</div>
+<div class="table-frame table-responsive">
+  <table class="table table-striped align-middle">
+    <caption>
+      Purchasing Frequency
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Frequency</th>
+        <th scope="col">Customers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for label, count in metrics.frequency.items() %}
+      <tr>
+        <th scope="row">{{ label }}</th>
+        <td>{{ count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

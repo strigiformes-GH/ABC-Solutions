@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+<section class="card receipt-panel app-card" aria-labelledby="receipt-heading">
+  <h1 id="receipt-heading">Sale Recorded</h1>
+  <h2>Transaction #{{ sale.id }} | £{{ sale.total }}</h2>
+  <p>
+    {{ sale.date }}<br />Customer: {{ sale.customer }}<br />Recorded by: {{
+    sale.employee }}
+  </p>
+  <div class="table-frame table-responsive">
+    <table class="table table-striped align-middle">
+      <caption>
+        Items in Sale #{{ sale.id }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Unit price</th>
+          <th scope="col">Line total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for line in sale.sale_lines %}
+        <tr>
+          <th scope="row">{{ line.name }}</th>
+          <td>{{ line.quantity }}</td>
+          <td>£{{ line.unit_price }}</td>
+          <td>£{{ line.total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" scope="row">Total Paid</th>
+          <td>£{{ sale.total }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class="note" role="status">Sale confirmed.</p>
+  {% if user_role in ("Admin", "Manager") %}<a
+    class="btn btn-primary"
+    href="{{ url_for('app_sales_history') }}"
+    >View Sales</a
+  >{% endif %}
+  <a class="btn btn-secondary" href="{{ url_for('app_sale_new') }}">New Sale</a>
+</section>
+{% endblock %}

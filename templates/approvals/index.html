@@ -1,0 +1,159 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Approvals</h1>
+<section class="card app-card">
+  <h2>Archive and Deactivation Requests</h2>
+  <div class="table-frame table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Record</th>
+          <th>Requested by</th>
+          <th>Requested</th>
+          <th>Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in pending_approvals %}
+        <tr>
+          <th>{{ row.type }}</th>
+          <td>{{ row.target }}</td>
+          <td>{{ row.requested_by }}</td>
+          <td>{{ row.requested }}</td>
+          <td>
+            <div class="actions">
+              <form
+                method="post"
+                action="{{ url_for('features.deletion_approval', request_id=row.request_id, decision='approve') }}"
+              >
+                <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="{{ csrf_token() }}"
+                /><button class="btn btn-primary">Approve</button>
+              </form>
+              <form
+                method="post"
+                action="{{ url_for('features.deletion_approval', request_id=row.request_id, decision='reject') }}"
+              >
+                <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="{{ csrf_token() }}"
+                /><button class="btn btn-secondary">Reject</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5">No pending requests.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card app-card">
+  <h2>Customer Edit Requests</h2>
+  <div class="table-frame table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Field</th>
+          <th>Current</th>
+          <th>Requested</th>
+          <th>Requested by</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in customer_edit_requests %}
+        <tr>
+          <th>{{ row.customer }}</th>
+          <td>{{ row.field }}</td>
+          <td>{{ row.current }}</td>
+          <td>{{ row.requested }}</td>
+          <td>{{ row.requested_by }}</td>
+          <td>
+            <form
+              method="post"
+              action="{{ url_for('features.customer_edit_approval', request_id=row.request_id, decision='approve') }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              /><button class="btn btn-primary">Approve</button>
+            </form>
+            <form
+              method="post"
+              action="{{ url_for('features.customer_edit_approval', request_id=row.request_id, decision='reject') }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              /><button class="btn btn-secondary">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6">No pending customer edits.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="card app-card">
+  <h2>Password Reset Requests</h2>
+  <div class="table-frame table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>Requested</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in password_reset_requests %}
+        <tr>
+          <th>{{ row.requested_by }}</th>
+          <td>{{ row.requested }}</td>
+          <td>
+            <form
+              method="post"
+              action="{{ url_for('features.password_reset_approval', request_id=row.request_id, decision='approve') }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              /><button class="btn btn-primary">Approve and Create Link</button>
+            </form>
+            <form
+              method="post"
+              action="{{ url_for('features.password_reset_approval', request_id=row.request_id, decision='reject') }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              /><button class="btn btn-secondary">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="3">No pending password reset requests.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

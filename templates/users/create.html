@@ -1,0 +1,73 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Create a User</h1>
+<form
+  class="card auth-card app-card"
+  method="post"
+  action="{{ url_for('features.admin_user_create') }}"
+>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="form-grid">
+    <div>
+      <label for="user-first">First Name</label
+      ><input
+        id="user-first"
+        name="first_name"
+        maxlength="50"
+        required
+        class="form-control"
+      />
+    </div>
+    <div>
+      <label for="user-last">Last Name</label
+      ><input
+        id="user-last"
+        name="last_name"
+        maxlength="50"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="wide">
+      <label for="user-email">Email</label
+      ><input
+        id="user-email"
+        type="email"
+        name="email"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="wide">
+      <label for="user-username">Username</label
+      ><input
+        id="user-username"
+        name="username"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="wide">
+      <label for="user-role">Role</label
+      ><select id="user-role" name="role" required class="form-select">
+        <option>Admin</option>
+        <option>Manager</option>
+        <option>Business</option>
+        <option>Employee</option>
+      </select>
+    </div>
+    <div class="wide">
+      <label for="user-password">Temporary Password (12+ characters)</label
+      ><input
+        id="user-password"
+        type="password"
+        name="password"
+        minlength="12"
+        required
+        class="form-control"
+      />
+    </div>
+  </div>
+  <button class="mt-3 btn btn-primary">Create User</button>
+  <a class="btn btn-secondary" href="{{ url_for('app_users') }}">Cancel</a>
+</form>
+{% endblock %}

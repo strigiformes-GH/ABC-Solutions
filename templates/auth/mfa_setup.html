@@ -1,0 +1,57 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card auth-card app-card">
+  <h1>Verify Account</h1>
+  <p>
+    Scan this QR code with an authenticator app, or enter the key.
+  </p>
+  {% if qr_data_uri %}<img
+    class="qr"
+    src="{{ qr_data_uri }}"
+    alt="Authenticator setup QR code"
+  />
+  <p>Setup key: <code>{{ manual_key }}</code></p>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><label
+      for="code"
+      >Six-Digit Code</label
+    ><input
+      id="code"
+      name="code"
+      inputmode="numeric"
+      pattern="[0-9]{6}"
+      maxlength="6"
+      autocomplete="one-time-code"
+      required
+      class="form-control"
+    /><button class="mt-3 btn btn-primary">Verify and Continue</button>
+  </form>
+  {% else %}
+  <p>Use your authenticator app to verify your account.</p>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><label
+      for="code"
+      >Verification Code</label
+    ><input
+      id="code"
+      name="code"
+      inputmode="numeric"
+      pattern="[0-9]{6}"
+      maxlength="6"
+      required
+      class="form-control"
+    /><button class="mt-3 btn btn-primary">Verify</button>
+  </form>
+  {% endif %}
+  <form
+    class="mt-3"
+    method="post"
+    action="{{ url_for('auth.pending_logout') }}"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><button
+      class="btn btn-secondary"
+    >
+      Sign out
+    </button>
+  </form>
+</section>
+{% endblock %}

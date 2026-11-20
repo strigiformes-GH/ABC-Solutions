@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: abc_solutions
+      POSTGRES_USER: abc
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-dev-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U abc -d abc_solutions"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: production
+      SECRET_KEY: ${SECRET_KEY:-local-compose-secret-change-me-1234567890}
+      DATABASE_URL: postgresql+psycopg://abc:${POSTGRES_PASSWORD:-local-dev-password}@db:5432/abc_solutions
+      MFA_REQUIRED: "true"
+      SESSION_COOKIE_SECURE: "false"
+      AUTO_INIT_DB: "false"
+      TRUSTED_HOSTS: localhost,127.0.0.1
+      PORT: "8000"
+      ADMIN_FIRST_NAME: ${ADMIN_FIRST_NAME:-}
+      ADMIN_LAST_NAME: ${ADMIN_LAST_NAME:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

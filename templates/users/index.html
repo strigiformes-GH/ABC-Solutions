@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% block content %}
+<h1>User Management</h1>
+{% if user_role == "Admin" %}
+<p>
+  <a class="btn btn-primary" href="{{ url_for('app_user_create') }}"
+    >Create User</a
+  >
+</p>
+{% endif %}
+<div class="table-frame table-responsive">
+  <table class="list-table responsive-list table table-striped align-middle">
+    <caption>
+      Users, roles, MFA, account status and available actions
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">MFA</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th scope="row" data-label="Name">
+          {{ user.first_name }} {{ user.last_name }}
+        </th>
+        <td data-label="Username">{{ user.username }}</td>
+        <td data-label="Email">{{ user.email }}</td>
+        <td data-label="Role">{{ user.role }}</td>
+        <td data-label="MFA">{{ user.mfa }}</td>
+        <td data-label="Status">
+          {{ user.status }}{% if user.lock %}<br /><small>{{ user.lock }}</small
+          >{% endif %}
+        </td>
+        <td data-label="Actions">
+          {% if user_role == "Admin" %}<a
+            href="{{ url_for('app_user_edit', user_id=user.user_id) }}"
+            >Edit</a
+          >
+          |{% endif %} {% if user.status == "Inactive" %} {% if user_role ==
+          "Admin" or user.role == "Employee" %}
+          <form
+            method="post"
+            action="{{ url_for('features.activate_user', user_id=user.user_id) }}"
+            class="d-inline"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button class="link-button btn btn-link" type="submit">
+              Activate
+            </button>
+          </form>
+          {% endif %} {% else %} {% if user.user_id != current_user.user_id and
+          (user_role == "Admin" or user.role == "Employee") %}
+          <a href="{{ url_for('app_user_deactivate', user_id=user.user_id) }}"
+            >Deactivate</a
+          >
+          {% else %}Deactivate{% endif %} {% endif %} {% if user.lock and
+          user.user_id != current_user.user_id and (user_role == "Admin" or
+          user.role == "Employee") %} |
+          <form
+            method="post"
+            action="{{ url_for('auth.unlock_user', user_id=user.user_id) }}"
+            class="d-inline"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button class="link-button btn btn-link" type="submit">
+              Unlock
+            </button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

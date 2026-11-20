@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>{{ page_title }}</h1>
+  {% if status_kind == 'session' %}
+  <p>Your session expired. Sign in to continue.</p>
+  <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Sign in</a>{%
+  else %}
+  <p>You do not have permission to open this page.</p>
+  <a class="btn btn-primary" href="{{ url_for('home') }}">Back</a>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Sales History</h1>
+<form class="card app-row app-card filter-toolbar" method="get">
+  <div class="filter-field">
+    <label for="sale-search-id">Transaction Number</label
+    ><input
+      id="sale-search-id"
+      name="sale_id"
+      value="{{ search_id }}"
+      class="form-control"
+    />
+  </div>
+  <div class="filter-field">
+    <label for="sale-employee">Staff Member</label
+    ><select id="sale-employee" name="employee_id" class="form-select">
+      <option value="">All Staff</option>
+      {% for employee in employees %}
+      <option
+        value="{{ employee.user_id }}"
+        {% if selected_employee == employee.user_id|string %}selected{% endif %}
+      >
+        {{ employee.first_name }} {{ employee.last_name }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-field">
+    <label for="sale-sort">Sort</label
+    ><select id="sale-sort" name="sort" class="form-select">
+      <option
+        value="newest"
+        {% if selected_sort == "newest" %}selected{% endif %}
+      >
+        Newest First
+      </option>
+      <option
+        value="oldest"
+        {% if selected_sort == "oldest" %}selected{% endif %}
+      >
+        Oldest First
+      </option>
+      <option
+        value="highest"
+        {% if selected_sort == "highest" %}selected{% endif %}
+      >
+        Highest Value
+      </option>
+      <option
+        value="lowest"
+        {% if selected_sort == "lowest" %}selected{% endif %}
+      >
+        Lowest Value
+      </option>
+    </select>
+  </div>
+  <div class="actions filter-actions">
+    <button class="btn btn-primary">Apply</button
+    ><a class="btn btn-secondary" href="{{ url_for('app_sales_history') }}"
+      >Clear</a
+    >
+  </div>
+</form>
+<div class="table-frame table-responsive">
+  <table class="table table-striped align-middle">
+    <caption>
+      Recorded Sales
+    </caption>
+    <thead>
+      <tr>
+        <th>Transaction</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Recorded by</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sale in sales %}
+      <tr>
+        <th>{{ sale.id }}</th>
+        <td>{{ sale.date }}</td>
+        <td>{{ sale.customer }}</td>
+        <td>{{ sale.employee }}</td>
+        <td>£{{ sale.total }}</td>
+        <td>
+          <a href="{{ url_for('features.sale_receipt', sale_id=sale.id) }}"
+            >View Receipt</a
+          >
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">No sales found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Customer Details</h1>
+<div class="app-grid">
+  <section class="card app-card">
+    <h2>{{ customer.name }}</h2>
+    <p>{{ customer.email }}<br />{{ customer.phone or 'No phone number' }}</p>
+    <p>
+      Purchases: {{ purchases }}<br />Lifetime Spend: £{{ lifetime }}<br />Last
+      Purchase: {{ last_purchase }}
+    </p>
+    <div class="actions">
+      {% if user_role in ('Admin', 'Manager') %}<a
+        class="btn btn-secondary"
+        href="{{ url_for('app_customer_edit', customer_id=customer.customer_id) }}"
+        >Edit Details</a
+      >{% elif user_role == 'Employee' %}<a
+        class="btn btn-secondary"
+        href="{{ url_for('app_customer_edit_request', customer_id=customer.customer_id) }}"
+        >Request Edit</a
+      >{% endif %}<a
+        class="btn btn-secondary"
+        href="{{ url_for('app_customers') }}"
+        >Back</a
+      >
+    </div>
+  </section>
+  <section class="card app-card">
+    <h2>Customer Activity</h2>
+  </section>
+</div>
+{% endblock %}

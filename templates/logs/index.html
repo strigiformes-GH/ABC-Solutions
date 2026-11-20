@@ -1,0 +1,40 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Logs</h1>
+<div class="table-frame table-responsive">
+  <table class="table table-striped align-middle">
+    <caption>
+      Recent Events
+    </caption>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Date</th>
+        <th>Actor</th>
+        <th>Action</th>
+        <th>Record</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in log_events %}
+      <tr>
+        <th>
+          <a href="{{ url_for('app_log_detail', event_id=event.id) }}"
+            >{{ event.id }}</a
+          >
+        </th>
+        <td>{{ event.date }}</td>
+        <td>{{ event.actor }}</td>
+        <td>{{ audit_action_label(event.action) }}</td>
+        <td>{{ event.record }}</td>
+        <td>{{ event.result }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">No events recorded.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

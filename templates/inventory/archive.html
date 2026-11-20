@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>Archive Item</h1>
+  <p>{{ inventory_item.sku }} | {{ inventory_item.name }}</p>
+  {% if user_role == 'Employee' %}
+  <p>Send this item for manager or admin approval.</p>
+  {% else %} {% endif %}
+  <form
+    method="post"
+    action="{{ url_for('features.inventory_delete', item_id=inventory_item.item_id) }}"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /><button
+      class="btn btn-danger"
+    >
+      {{ 'Request Archive' if user_role == 'Employee' else 'Archive Item' }}
+    </button>
+    <a class="btn btn-secondary" href="{{ url_for('app_inventory') }}"
+      >Cancel</a
+    >
+  </form>
+</section>
+{% endblock %}

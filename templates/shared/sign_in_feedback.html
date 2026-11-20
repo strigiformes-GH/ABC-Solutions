@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>Sign-in Feedback</h1>
+  <p>Could not sign in. Check your details and try again.</p>
+  <p>Too many attempts? Contact your manager or admin.</p>
+  <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Try Again</a>
+</section>
+{% endblock %}

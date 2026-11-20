@@ -1,0 +1,84 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card auth-card app-card">
+  <h1>Request an Account</h1>
+  <p class="note">
+    A manager or admin must activate your account first.
+  </p>
+  <form method="post" action="{{ url_for('auth.register') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <div class="form-grid">
+      <div>
+        <label for="first">First Name</label
+        ><input
+          id="first"
+          name="first_name"
+          maxlength="50"
+          required
+          class="form-control"
+        />
+      </div>
+      <div>
+        <label for="last">Last Name</label
+        ><input
+          id="last"
+          name="last_name"
+          maxlength="50"
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="wide">
+        <label for="email">Email</label
+        ><input
+          id="email"
+          name="email"
+          type="email"
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="wide">
+        <label for="username">Username</label
+        ><input
+          id="username"
+          name="username"
+          autocomplete="username"
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="wide">
+        <label for="role">Requested Role</label
+        ><select id="role" name="requested_role" required class="form-select">
+          <option value="EMPLOYEE">Employee</option>
+          <option value="BUSINESS">Business</option>
+        </select>
+      </div>
+      <div>
+        <label for="password">Password (12+ Characters)</label
+        ><input
+          id="password"
+          type="password"
+          name="password"
+          minlength="12"
+          required
+          class="form-control"
+        />
+      </div>
+      <div>
+        <label for="confirm">Confirm Password</label
+        ><input
+          id="confirm"
+          type="password"
+          name="confirm_password"
+          minlength="12"
+          required
+          class="form-control"
+        />
+      </div>
+    </div>
+    <button class="mt-3 btn btn-primary" type="submit">Submit Request</button>
+    <a class="btn btn-secondary" href="{{ url_for('auth.login') }}">Back</a>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block content %}
+<section class="card status-card app-card">
+  <h1>Event {{ event.id }}</h1>
+  <dl>
+    <dt>Date</dt>
+    <dd>{{ event.date }}</dd>
+    <dt>Actor</dt>
+    <dd>{{ event.actor }}</dd>
+    <dt>Action</dt>
+    <dd>{{ audit_action_label(event.action) }}</dd>
+    <dt>Record</dt>
+    <dd>{{ event.record }}</dd>
+  </dl>
+  <a class="btn btn-secondary" href="{{ url_for('app_logs') }}"
+    >Back to Logs</a
+  >
+</section>
+{% endblock %}

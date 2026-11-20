@@ -1,0 +1,80 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Inventory</h1>
+<form
+  class="card app-row app-card filter-toolbar"
+  method="get"
+  action="{{ url_for('app_inventory') }}"
+>
+  <div class="filter-field">
+    <label for="search">Search item name or SKU</label
+    ><input
+      id="search"
+      name="q"
+      value="{{ search }}"
+      placeholder="Search item name or SKU"
+      class="form-control"
+    />
+  </div>
+  <div class="actions filter-actions">
+    <label
+      ><input
+        style="width: auto"
+        type="checkbox"
+        name="low"
+        value="1"
+        {%
+        if
+        low_only
+        %}checked{%
+        endif
+        %}
+      />
+      Low or Out of Stock</label
+    ><button type="submit" class="btn btn-primary">Filter Items</button
+    ><a class="btn btn-secondary" href="{{ url_for('app_inventory_edit') }}"
+      >+ Add Item</a
+    >
+  </div>
+</form>
+<div class="table-frame table-responsive">
+  <table class="responsive-list table table-striped align-middle">
+    <caption>
+      Current Stock
+    </caption>
+    <thead>
+      <tr>
+        <th>Stock code</th>
+        <th>Item name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in inventory_items %}
+      <tr>
+        <th scope="row" data-label="Stock code">{{ item.sku }}</th>
+        <td data-label="Item name">{{ item.name }}</td>
+        <td data-label="Price">£{{ item.price }}</td>
+        <td data-label="Quantity">{{ item.quantity }}</td>
+        <td data-label="Status">{{ item.status }}</td>
+        <td data-label="Actions" class="actions-cell">
+          <a href="{{ url_for('app_inventory_edit', item_id=item.item_id) }}"
+            >Edit</a
+          ><span aria-hidden="true">|</span
+          ><a
+            href="{{ url_for('app_inventory_archive', item_id=item.item_id) }}"
+            >Archive</a
+          >
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">No items match the filters.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
