@@ -35,9 +35,9 @@ def upgrade():
                     sa.Column('price', sa.Numeric(
                         precision=10, scale=2), nullable=False),
                     sa.Column('quantity', sa.Integer(),
-                              server_default=sa.false(), nullable=False),
+                              server_default=sa.text('0'), nullable=False),
                     sa.Column('reorder_level', sa.Integer(),
-                              server_default=sa.false(), nullable=False),
+                              server_default=sa.text('0'), nullable=False),
                     sa.Column('is_active', sa.Boolean(),
                               server_default=sa.true(), nullable=False),
                     sa.CheckConstraint('price >= 0 AND price <= 100000',
